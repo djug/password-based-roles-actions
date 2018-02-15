@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Welcome {{ $name }}. This is your <b>{{ $type }} </b> account
                 </div>
             </div>
         </div>

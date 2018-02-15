@@ -42,10 +42,19 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'type'  => "master"
         ]);
         $user->master_account_id = $user->id;
         $user->save();
         return redirect('/');
+    }
+
+    public function home()
+    {
+        $user = Auth::user();
+        $name = User::find($user->master_account_id)->name;
+        $type = $user->type;
+        return view('home')->with(compact('name', 'type'));
     }
 
     public function logout()

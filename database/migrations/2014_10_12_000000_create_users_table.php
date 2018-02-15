@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('master_account_id')->unsigned()->nullable();
                 $table->foreign('master_account_id')->references('id')->on('users');
+            $table->string('type')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
