@@ -15,13 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', 'AuthController@getLogin')->name('login');
-Route::post('/login', 'AuthController@postLogin');
+Route::get('/login', 'MainController@getLogin')->name('login');
+Route::post('/login', 'MainController@postLogin');
 
-Route::get('/register', 'AuthController@getRegister')->name('register');
-Route::post('/register', 'AuthController@postRegister');
+Route::get('/register', 'MainController@getRegister')->name('register');
+Route::post('/register', 'MainController@postRegister');
 
-Route::get('/logout', 'AuthController@logout')->name('logout');
-Route::get('/home', 'AuthController@home')->name('home');
+Route::get('/logout', 'MainController@logout')->name('logout');
+Route::get('/home', 'MainController@home')->name('home');
 
 
