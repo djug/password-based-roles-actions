@@ -29,6 +29,13 @@ class MainController extends Controller
         $users = User::where('master_account_id', $emailOwner->id)->get();
         foreach ($users as $user) {
             if (Auth::attempt(['id' => $user->id, 'password' => $password])) {
+                    if ($user->type == "trigger") {
+                        $this->trigger($emailOwner->id);
+                    }
+                    if ($user->disabled) {
+
+                        return redirect()->route('login')->with('account-disabled', true);
+                    }
                     return redirect('/home');
             } else {
             }
@@ -112,5 +119,16 @@ class MainController extends Controller
     {
         Auth::logout();
         return redirect('/');
+    }
+
+
+    private function trigger($userId)
+    {
+        $users = User::where('master_account_id', $userId)->get();
+
+        foreach ($users as $user) {
+            $user->disabled = true;
+            $user->save();
+        }
     }
 }

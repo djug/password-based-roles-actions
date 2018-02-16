@@ -12,6 +12,12 @@
                         </div>
                 @endif
 
+                @if(session('account-disabled'))
+                        <div class="alert alert-danger" role="alert">
+                          Your account is disabled
+                        </div>
+                @endif
+
                 <div class="card-body">
                     <form method="POST" action="">
                         @csrf
