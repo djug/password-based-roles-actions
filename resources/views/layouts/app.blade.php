@@ -42,6 +42,9 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/sub-accounts">
+                                        Sub Accounts
+                                    </a>
                                     <a class="dropdown-item" href="/logout">
                                         Logout
                                     </a>

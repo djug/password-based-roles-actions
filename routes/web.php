@@ -21,6 +21,9 @@ Route::post('/login', 'MainController@postLogin');
 Route::get('/register', 'MainController@getRegister')->name('register');
 Route::post('/register', 'MainController@postRegister');
 
+Route::get('/sub-accounts', 'MainController@getSubAccounts')->name('sub-accounts');
+Route::post('/sub-accounts', 'MainController@postSubAccounts')->name('post-sub-accounts');
+
 Route::get('/logout', 'MainController@logout')->name('logout');
 Route::get('/home', 'MainController@home')->name('home');
 

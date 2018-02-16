@@ -19,13 +19,21 @@ class MainController extends Controller
         $data = $request->all();
 
         $email = $data['email'];
+        $emailOwner = User::where('email', $email)->first();
+        if (! $email) {
+            return redirect()->route('login')->with('authentication-issue', true);
+        }
         $password = $data['password'];
 
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            return redirect('/home');
-        } else {
-           return redirect()->route('login')->with('authentication-issue', true);
+
+        $users = User::where('master_account_id', $emailOwner->id)->get();
+        foreach ($users as $user) {
+            if (Auth::attempt(['id' => $user->id, 'password' => $password])) {
+                    return redirect('/home');
+            } else {
+            }
         }
+            return redirect()->route('login')->with('authentication-issue', true);
     }
 
 
@@ -57,10 +65,52 @@ class MainController extends Controller
         return view('home')->with(compact('name', 'type'));
     }
 
+    public function getSubAccounts()
+    {
+
+        return view('sub-accounts');
+    }
+
+    public function postSubAccounts(Request $request)
+    {
+        $data = $request->all();
+        $restrictedPassword = $data['restricted-password'];
+        $triggerPassword = $data['trigger-password'];
+
+        $user = Auth::user();
+        $masterAccountId = $user->id;
+        if ($restrictedPassword) {
+            User::updateOrCreate(
+                [  'master_account_id' => $masterAccountId,
+                    'type' => 'restricted'
+                ],
+                [   'name' => $user->name,
+                    'master_account_id' => $masterAccountId,
+                    'type' => 'restricted',
+                    'password' => Hash::make($restrictedPassword)
+                ]
+            );
+        }
+
+        if ($triggerPassword) {
+            User::updateOrCreate(
+                [  'master_account_id' => $masterAccountId,
+                                   'type' => 'trigger'
+                ],
+                [   'name' => $user->name,
+                   'master_account_id' => $masterAccountId,
+                   'type' => 'trigger',
+                   'password' => Hash::make($triggerPassword)
+                ]
+            );
+        }
+
+        return redirect()->route('home');
+    }
+
     public function logout()
     {
         Auth::logout();
         return redirect('/');
     }
-
 }
