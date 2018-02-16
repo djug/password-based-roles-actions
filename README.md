@@ -1,4 +1,5 @@
-#Password Based Roles and Actions (PoC)
+Password Based Roles and Actions (PoC)
+---
 this demo project shows how we can implement a password based roles and actions system.
 
 ## How to install
