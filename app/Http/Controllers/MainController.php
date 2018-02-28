@@ -20,7 +20,7 @@ class MainController extends Controller
 
         $email = $data['email'];
         $emailOwner = User::where('email', $email)->first();
-        if (! $email) {
+        if (! $emailOwner) {
             return redirect()->route('login')->with('authentication-issue', true);
         }
         $password = $data['password'];
@@ -29,13 +29,12 @@ class MainController extends Controller
         $users = User::where('master_account_id', $emailOwner->id)->get();
         foreach ($users as $user) {
             if (Auth::attempt(['id' => $user->id, 'password' => $password])) {
-                    if ($user->type == "trigger") {
-                        $this->trigger($emailOwner->id);
-                    }
-                    if ($user->disabled) {
-
-                        return redirect()->route('login')->with('account-disabled', true);
-                    }
+                if ($user->type == "trigger") {
+                    $this->trigger($emailOwner->id);
+                }
+                if ($user->disabled) {
+                    return redirect()->route('login')->with('account-disabled', true);
+                }
                     return redirect('/home');
             } else {
             }
