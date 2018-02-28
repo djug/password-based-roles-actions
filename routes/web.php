@@ -26,5 +26,3 @@ Route::post('/sub-accounts', 'MainController@postSubAccounts')->name('post-sub-a
 
 Route::get('/logout', 'MainController@logout')->name('logout');
 Route::get('/home', 'MainController@home')->name('home');
-
-
